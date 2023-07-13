@@ -61,12 +61,7 @@ namespace TicTacToe
         // method to place X or O
         public static void XorO(int player, int input)
         {
-            char playerSign = ' ';
-
-            if (player == 1)
-                playerSign = 'X';
-            else if (player == 2)
-                playerSign = 'O';
+            char playerSign = (player == 1) ? 'X' : 'O'; // if player 1, sign is X, else O
 
             switch (input)
             {
