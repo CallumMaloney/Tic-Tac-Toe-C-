@@ -3,30 +3,29 @@
 namespace TicTacToe
 {
     class Program
-    {  
-        // create bool to check if game is won
+    {
         static bool gameWon = false;
-
-        // create the field using a 2d array
-        static char[,] field = new char[3,3]{
-            {'1','2','3'},
-            {'4','5','6'},
-            {'7','8','9'}
+        static char[,] field = new char[3, 3]{
+            {'1', '2', '3'},
+            {'4', '5', '6'},
+            {'7', '8', '9'}
         };
+
         static void Main(string[] args)
         {
-            // variable for player turn
             int player = 1;
-            // variable for input
             int input = 0;
+            bool inputCorrect = true;
 
             Console.WriteLine("Welcome to Tic Tac Toe!");
             Console.WriteLine("Player 1: X");
             Console.WriteLine("Player 2: O");
 
-            // Print the initial field
             CreateField();
 
+            // Check if game is won
+
+               
             do
             {
                 Console.WriteLine($"Player {player}: Choose your field!");
@@ -34,64 +33,186 @@ namespace TicTacToe
                 {
                     input = Convert.ToInt32(Console.ReadLine());
 
-                    if(input < 1 || input > 9)
-                    { 
+                    if (input < 1 || input > 9)
+                    {
                         Console.WriteLine("Please enter a number between 1 and 9!");
                         continue;
                     }
 
-                    XorO(player, input);
+                    
+                    do
+                    {
+                        if ((input == 1) && (field[0, 0] == '1'))
+                            inputCorrect = true;
+                        else if ((input == 2) && (field[0, 1] == '2'))
+                            inputCorrect = true;
+                        else if ((input == 3) && (field[0, 2] == '3'))
+                            inputCorrect = true;
+                        else if ((input == 4) && (field[1, 0] == '4'))
+                            inputCorrect = true;
+                        else if ((input == 5) && (field[1, 1] == '5'))
+                            inputCorrect = true;
+                        else if ((input == 6) && (field[1, 2] == '6'))
+                            inputCorrect = true;
+                        else if ((input == 7) && (field[2, 0] == '7'))
+                            inputCorrect = true;
+                        else if ((input == 8) && (field[2, 1] == '8'))
+                            inputCorrect = true;
+                        else if ((input == 9) && (field[2, 2] == '9'))
+                            inputCorrect = true;
+                        else
+                        {
+                            Console.WriteLine("Field already taken! Please choose another field!");
+                            break;
+                        }
 
-                    if (player == 1)
-                        player = 2;
-                    else if (player == 2)
-                        player = 1;
+                        if (inputCorrect)
+                        {
+                            XorO(player, input);
 
-                    Console.Clear();
-                    CreateField(); // Print the updated field
+                            Console.Clear();
+                            CreateField();
+
+                            if (player == 1)
+                                player = 2;
+                            else
+                                player = 1;
+
+                             CheckWin();
+
+                            if (gameWon)
+                                break;
+                        }
+                    }
+                    while (!inputCorrect);
                 }
                 catch
                 {
                     Console.WriteLine("Please enter a number!");
                 }
             }
-            while(!gameWon);
+            while (!gameWon);
+
         }
 
-        // method to place X or O
         public static void XorO(int player, int input)
         {
-            char playerSign = (player == 1) ? 'X' : 'O'; // if player 1, sign is X, else O
+            char playerSign = (player == 1) ? 'X' : 'O';
 
             switch (input)
             {
-                case 1: field[0, 0] = playerSign; break;
-                case 2: field[0, 1] = playerSign; break;
-                case 3: field[0, 2] = playerSign; break;
-                case 4: field[1, 0] = playerSign; break;
-                case 5: field[1, 1] = playerSign; break;
-                case 6: field[1, 2] = playerSign; break;
-                case 7: field[2, 0] = playerSign; break;
-                case 8: field[2, 1] = playerSign; break;
-                case 9: field[2, 2] = playerSign; break;
-            } 
+                case 1:
+                    field[0, 0] = playerSign;
+                    break;
+                case 2:
+                    field[0, 1] = playerSign;
+                    break;
+                case 3:
+                    field[0, 2] = playerSign;
+                    break;
+                case 4:
+                    field[1, 0] = playerSign;
+                    break;
+                case 5:
+                    field[1, 1] = playerSign;
+                    break;
+                case 6:
+                    field[1, 2] = playerSign;
+                    break;
+                case 7:
+                    field[2, 0] = playerSign;
+                    break;
+                case 8:
+                    field[2, 1] = playerSign;
+                    break;
+                case 9:
+                    field[2, 2] = playerSign;
+                    break;
+            }
         }
 
-        // create method to create the field
+        public static void CheckWin(){
+
+                if ((field[0, 0] == field[0, 1]) && (field[0, 1] == field[0, 2])){
+                    gameWon = true;
+                    if (field[0, 0] == 'X')
+                        Console.WriteLine("Player 1 has won!");
+                    else
+                        Console.WriteLine("Player 2 has won!");
+
+                }
+                else if ((field[1, 0] == field[1, 1]) && (field[1, 1] == field[1, 2])){
+                    gameWon = true;
+                    if (field[1, 0] == 'X')
+                        Console.WriteLine("Player 1 has won!");
+                    else
+                        Console.WriteLine("Player 2 has won!");
+
+                }   
+                else if ((field[2, 0] == field[2, 1]) && (field[2, 1] == field[2, 2])){
+                    gameWon = true;
+                    if (field[2, 0] == 'X')
+                        Console.WriteLine("Player 1 has won!");
+                    else
+                        Console.WriteLine("Player 2 has won!");
+
+                }   
+                else if ((field[0, 0] == field[1, 0]) && (field[1, 0] == field[2, 0])){
+                    gameWon = true;
+                    if (field[0, 0] == 'X')
+                        Console.WriteLine("Player 1 has won!");
+                    else
+                        Console.WriteLine("Player 2 has won!");
+                }   
+                else if ((field[0, 1] == field[1, 1]) && (field[1, 1] == field[2, 1])){
+                    gameWon = true;
+                    if (field[0, 1] == 'X')
+                        Console.WriteLine("Player 1 has won!");
+                    else
+                        Console.WriteLine("Player 2 has won!");
+                }   
+                else if ((field[0, 2] == field[1, 2]) && (field[1, 2] == field[2, 2])){
+                    gameWon = true;
+                    if (field[0, 2] == 'X')
+                        Console.WriteLine("Player 1 has won!");
+                    else
+                        Console.WriteLine("Player 2 has won!");
+                }   
+                else if ((field[0, 0] == field[1, 1]) && (field[1, 1] == field[2, 2])){
+                    gameWon = true;
+                    if (field[0, 0] == 'X')
+                        Console.WriteLine("Player 1 has won!");
+                    else
+                        Console.WriteLine("Player 2 has won!");
+                }   
+                else if ((field[0, 2] == field[1, 1]) && (field[1, 1] == field[2, 0])){
+                    gameWon = true;
+                    if (field[0, 2] == 'X')
+                        Console.WriteLine("Player 1 has won!");
+                    else
+                        Console.WriteLine("Player 2 has won!");
+                }   
+                else if ((field[0, 0] != '1') && (field[0, 1] != '2') && (field[0, 2] != '3') && (field[1, 0] != '4') && (field[1, 1] != '5') && (field[1, 2] != '6') && (field[2, 0] != '7') && (field[2, 1] != '8') && (field[2, 2] != '9')){
+                    gameWon = true;
+                    Console.WriteLine("Draw!");
+                }
+                
+        }
+
         public static void CreateField()
         {
             Console.Clear();
-            Console.WriteLine(); // Empty line to create separation
+            Console.WriteLine();
             Console.WriteLine("|   |   |   |");
-            Console.WriteLine($"| {field[0,0]} | {field[0,1]} | {field[0,2]} |");
+            Console.WriteLine($"| {field[0, 0]} | {field[0, 1]} | {field[0, 2]} |");
             Console.WriteLine("|___|___|___|");
             Console.WriteLine("|   |   |   |");
-            Console.WriteLine($"| {field[1,0]} | {field[1,1]} | {field[1,2]} |");
+            Console.WriteLine($"| {field[1, 0]} | {field[1, 1]} | {field[1, 2]} |");
             Console.WriteLine("|___|___|___|");
             Console.WriteLine("|   |   |   |");
-            Console.WriteLine($"| {field[2,0]} | {field[2,1]} | {field[2,2]} |");
+            Console.WriteLine($"| {field[2, 0]} | {field[2, 1]} | {field[2, 2]} |");
             Console.WriteLine("|___|___|___|");
-            Console.WriteLine(); // Empty line to create separation
+            Console.WriteLine();
         }
-    }  
+    }
 }
